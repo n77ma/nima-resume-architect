@@ -17,13 +17,13 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 15%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 210 15% 85%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 210 15% 95%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 210 40% 96.1%;
@@ -35,6 +35,13 @@ All colors MUST be HSL.
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
+    
+    /* Resume-specific variables */
+    --resume-primary: 210 100% 15%;
+    --resume-secondary: 210 15% 60%;
+    --resume-light: 210 15% 95%;
+    --resume-text: 222.2 84% 4.9%;
+    --resume-accent: 210 100% 20%;
 
     --radius: 0.5rem;
 
@@ -101,5 +108,84 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Print styles for PDF generation */
+@media print {
+  @page {
+    margin: 0.5in;
+    size: A4;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+}
+
+/* Resume-specific utility classes */
+@layer components {
+  .resume-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    max-width: 8.5in;
+    margin: 0 auto;
+    background: white;
+    color: hsl(var(--resume-text));
+    line-height: 1.4;
+  }
+  
+  .resume-header {
+    background: linear-gradient(135deg, hsl(var(--resume-primary)), hsl(var(--resume-accent)));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .resume-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .resume-section-title {
+    color: hsl(var(--resume-primary));
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid hsl(var(--resume-primary));
+    padding-bottom: 0.25rem;
+  }
+  
+  .skill-bar {
+    height: 6px;
+    background: hsl(var(--resume-light));
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(var(--resume-primary)), hsl(var(--resume-accent)));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+  
+  .experience-item {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid hsl(var(--resume-light));
+  }
+  
+  .experience-item:last-child {
+    border-bottom: none;
   }
 }
