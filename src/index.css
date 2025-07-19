@@ -8,40 +8,43 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 13% 9%;
+    --foreground: 210 40% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 13% 12%;
+    --card-foreground: 210 40% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 13% 12%;
+    --popover-foreground: 210 40% 95%;
 
-    --primary: 210 100% 15%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 220 13% 9%;
 
-    --secondary: 210 15% 85%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 210 40% 85%;
 
-    --muted: 210 15% 95%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 100% 65%;
+    --accent-foreground: 220 13% 9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 18%;
+    --input: 220 13% 18%;
+    --ring: 210 100% 60%;
     
-    /* Resume-specific variables */
-    --resume-primary: 210 100% 15%;
-    --resume-secondary: 210 15% 60%;
-    --resume-light: 210 15% 95%;
-    --resume-text: 222.2 84% 4.9%;
-    --resume-accent: 210 100% 20%;
+    /* Resume-specific dark variables */
+    --resume-bg: 220 13% 9%;
+    --resume-card: 220 13% 12%;
+    --resume-primary: 210 100% 60%;
+    --resume-secondary: 210 40% 70%;
+    --resume-muted: 215 20% 50%;
+    --resume-text: 210 40% 95%;
+    --resume-accent: 210 100% 65%;
+    --resume-border: 220 13% 18%;
 
     --radius: 0.5rem;
 
@@ -114,13 +117,61 @@ All colors MUST be HSL.
 /* Print styles for PDF generation */
 @media print {
   @page {
-    margin: 0.5in;
-    size: A4;
+    margin: 15mm 20mm;
+    size: A4 portrait;
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   body {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    background: hsl(var(--resume-bg)) !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+  
+  .resume-container {
+    max-width: none !important;
+    width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .resume-header {
+    padding: 20pt 15pt !important;
+    page-break-after: avoid;
+  }
+  
+  .resume-section {
+    page-break-inside: avoid;
+    margin-bottom: 15pt !important;
+  }
+  
+  .resume-card {
+    page-break-inside: avoid;
+    margin-bottom: 10pt !important;
+    padding: 12pt !important;
+  }
+  
+  .experience-item {
+    page-break-inside: avoid;
+    margin-bottom: 12pt !important;
+    padding-bottom: 8pt !important;
+  }
+  
+  .grid {
+    display: block !important;
+  }
+  
+  .lg\\:col-span-2,
+  .lg\\:col-span-1 {
+    width: 100% !important;
+    float: none !important;
   }
   
   .no-print {
@@ -130,62 +181,168 @@ All colors MUST be HSL.
   .page-break {
     page-break-before: always;
   }
+  
+  /* Ensure proper layout for A4 */
+  .lg\\:grid-cols-3 {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20pt !important;
+  }
+  
+  .lg\\:col-span-2 {
+    flex: 2 !important;
+  }
+  
+  .lg\\:col-span-1 {
+    flex: 1 !important;
+  }
 }
 
 /* Resume-specific utility classes */
 @layer components {
   .resume-container {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    max-width: 8.5in;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
+    max-width: 210mm;
+    min-height: 297mm;
     margin: 0 auto;
-    background: white;
+    background: hsl(var(--resume-bg));
     color: hsl(var(--resume-text));
-    line-height: 1.4;
+    line-height: 1.5;
+    position: relative;
+    overflow: hidden;
   }
   
   .resume-header {
-    background: linear-gradient(135deg, hsl(var(--resume-primary)), hsl(var(--resume-accent)));
-    color: white;
-    padding: 2rem;
+    background: linear-gradient(135deg, 
+      hsl(var(--resume-card)) 0%, 
+      hsl(220 13% 15%) 100%);
+    color: hsl(var(--resume-text));
+    padding: 3rem 2rem 2rem;
     text-align: center;
+    position: relative;
+    box-shadow: 
+      0 4px 16px -4px hsl(220 13% 5% / 0.3),
+      inset 0 1px 0 hsl(210 100% 60% / 0.1);
+    border-bottom: 1px solid hsl(var(--resume-border));
+  }
+  
+  .resume-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+      hsl(var(--resume-primary)), 
+      hsl(var(--resume-accent)));
   }
   
   .resume-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
   
   .resume-section-title {
     color: hsl(var(--resume-primary));
-    font-weight: 700;
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid hsl(var(--resume-primary));
-    padding-bottom: 0.25rem;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .resume-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      hsl(var(--resume-primary)), 
+      hsl(var(--resume-accent)));
+    border-radius: 1px;
+  }
+  
+  .resume-card {
+    background: hsl(var(--resume-card));
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 
+      0 2px 8px -2px hsl(220 13% 5% / 0.2),
+      0 0 0 1px hsl(var(--resume-border));
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .resume-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsl(210 100% 60% / 0.3), 
+      transparent);
   }
   
   .skill-bar {
-    height: 6px;
-    background: hsl(var(--resume-light));
-    border-radius: 3px;
+    height: 4px;
+    background: hsl(var(--resume-border));
+    border-radius: 2px;
     overflow: hidden;
+    position: relative;
   }
   
   .skill-progress {
     height: 100%;
-    background: linear-gradient(90deg, hsl(var(--resume-primary)), hsl(var(--resume-accent)));
-    border-radius: 3px;
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, 
+      hsl(var(--resume-primary)), 
+      hsl(var(--resume-accent)));
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
   
-  .experience-item {
-    margin-bottom: 1.25rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid hsl(var(--resume-light));
+  .skill-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      hsl(210 100% 80% / 0.3) 50%, 
+      transparent 100%);
+    animation: shimmer 2s infinite;
   }
   
-  .experience-item:last-child {
-    border-bottom: none;
+  .impact-card {
+    background: hsl(var(--resume-card));
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    border: 1px solid hsl(var(--resume-border));
+    box-shadow: 
+      0 1px 3px hsl(220 13% 5% / 0.1),
+      inset 0 1px 0 hsl(210 100% 60% / 0.05);
   }
+  
+  .impact-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: hsl(var(--resume-primary));
+    text-shadow: 0 1px 2px hsl(220 13% 5% / 0.3);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
